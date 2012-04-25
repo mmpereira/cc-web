@@ -1,0 +1,28 @@
+<html>
+	<head>
+		<script type="text/javascript" src="jquery.min.js"></script>
+		<script src="jquery.tmpl.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
+	</head>
+
+	<body>
+		<script>
+			var socket = io.connect('http://localhost:3000');
+			socket.on('news', function(data) {
+				console.log('message: '+data.hello);
+
+				//$('tableBody').append('<tr><td>'+data+'</td></tr>');
+				socket.emit('my other event', { my : 'this is my answer' });
+			});
+		</script>
+
+		<table>
+			<tbody id="tableBody">
+			</tbody>
+		</table>
+
+		<script type="text/x-jquery-tmpl" id="tmpl-annotation-box">
+		</script>
+	</body>
+</html>
+
