@@ -2,24 +2,34 @@
 
 var express = require('express'),
 	app = express.createServer(),
+	fs = require('fs'),
 	http = require('http'),
 	io = require('socket.io').listen(app),
-	//amqp = require('amqp'),
 	context = require('rabbit.js').createContext('amqp://localhost');
 
 var port = 3000;
 
 app.listen(port);
 
+
 //configuration
 app.configure(function() {
-	app.set('views', __dirname+'/views');
-	app.use(express.static(__dirname + '/public'));
+	app.use(express.bodyParser());
+	app.use(express.methodOverride());
+	app.use(app.router);
+	app.use(express.static(__dirname+'/public'));
 });
 
 
+
+//routes
+//app.get('/', routes.index);
+
+//end of config
+
 app.get('/', function(req, res) {
-	res.sendfile(__dirname + '/views/index.html');
+	var index = fs.readFileSync('views/index.html', 'utf8');
+	res.send(index);
 });
 
 io.sockets.on('connection', function(socket) {
@@ -49,8 +59,9 @@ connection.addListener('ready', function() {
 context.on('ready', function() {
 	//var pub = context.socket('PUB'), 
 	var	sub = context.socket('SUB');
+	sub.setEncoding('utf8');
 	//sub.pipe(process.stdout);
-	sub.connect('si.test.queue');
+	sub.connect('notifications.queue');
 	console.log('im here');
 	sub.on('si.test.queue', function(msg) {
 		console.log('msg: '+msg);
