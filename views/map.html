@@ -1,0 +1,29 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+    	<style type="text/css">
+	    	html, body {
+    	    	margin: 0;
+	        	padding: 0;
+		        height: 100%;
+	    	}
+	    </style>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
+		<script src="/js/map.js"></script>
+	</head>
+	<body onload="$.initialize()">
+		 Find Place: <input type="text" id="address" size="50"/><input type="button" value="Go" onclick="$.geocode()"><input type="button" value="Add Marker at Center" onclick="$.addMarkerAtCenter()"/>
+		<div id="map" style="width: 80%"> 
+		    <div id="map_canvas" style="width:100%; height:400px"></div>
+		    <div id="crosshair"></div>
+		</div>
+		<table>
+		    <tr><td>Lat/Lng:</td><td><div id="latlng"></div></td></tr>
+		    <tr><td>Address:</td><td><div id="formatedAddress"></div></td></tr>
+		    <tr><td>Zoom Level</td><td><div id="zoom_level">2</div></td></tr>
+		</table>
+	</body>
+</html>
+
